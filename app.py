@@ -1,8 +1,4 @@
 import os
-import os
-
-HOST = os.environ.get("HOST")
-PORT = os.environ.get("PORT")
 
 from flask import Flask
 
@@ -15,4 +11,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host=HOST, port=PORT)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 80)))
