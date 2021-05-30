@@ -34,7 +34,13 @@ class NewsData(db.Model):
 
 @app.route('/')
 def index():
-    return 'Hello World!!!'
+    return 'Hello World!!!'.
+
+@app.route('/add')
+def index():
+    from app.fosmis import updateDB
+    updateDB()
+    return 'DataBase Updated'
 
 @app.route('/createdb')
 def createdb():
