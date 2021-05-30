@@ -1,2 +1,8 @@
 Flask
 gunicorn
+flask_sqlalchemy
+bs4
+beautifulsoup4
+requests
+logging
+lxml
