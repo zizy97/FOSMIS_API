@@ -9,7 +9,7 @@ HOST = os.environ.get("HOST")
 PORT = os.environ.get("PORT")
 
 #DATABASE_URL=os.environ.get("DATABASE_URL","sqlite:///sample.db")
-DATABASE_URL=os.environ.get("sqlite:///sample.db")
+DATABASE_URL='sqlite:///sample.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 db = SQLAlchemy(app)
