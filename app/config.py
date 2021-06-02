@@ -38,8 +38,8 @@ def index():
 
 @app.route('/add')
 def updateDB():
-    from app.fosmis import updateDB
-    updateDB()
+    from app.fosmis import dbupdata
+    dbupdata()
     return 'DataBase Updated'
 
 @app.route('/createdb')
