@@ -21,5 +21,5 @@ def uploadPDF(filepath, filename):
         fileId=file_id,
         body=user_permissions
     ).execute()
-    response = drive_service.files().get(fileId=file_id, fields='webContentLink,webViewLink').execute()
-    return {"webViewLink": response.get('webViewLink'), "webContentLink": response.get('webContentLink')}
+    response = drive_service.files().get(fileId=file_id, fields='webContentLink').execute()
+    return response.get('webContentLink')

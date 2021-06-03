@@ -31,7 +31,7 @@ def updateDB():
                         filename = re.findall(r'-[\w,\s]*', row.td.a['href'])[0]
                         filename = filename.strip('- ')
                         url2 = re.findall(r'/.*', row.td.a['href'])[0]
-                        row_data.append({"path": download_file(ses, url + "/" + url2, filename)})
+                        row_data.append(download_file(ses, url + "/" + url2, filename))
                         break
                     elif re.search(r".html", row.td.a['href']):
                         row_data.append(
