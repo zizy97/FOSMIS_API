@@ -23,6 +23,7 @@ def download_file(ses, url, filename):
         file = open(path, 'wb')
         file.write(response.content)
         file.close()
-    log.info("uploading %s ...", filename)
+    else:
+        log.info("%s file exist download skipped....", filename)
     link = uploadPDF(path, filename)
     return {"path": link}
