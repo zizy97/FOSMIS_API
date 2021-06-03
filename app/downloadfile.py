@@ -16,14 +16,14 @@ except FileExistsError:
 
 
 def download_file(ses, url, filename):
-    if not os.path.exists('pdf/' + filename + '.pdf'):
+    path = str(pathlib.Path().absolute()) + f'/pdf/{filename}.pdf'
+    if not os.path.exists(path):
         log.info("downloading %s ...", filename)
         response = ses.get(url)
-        file = open('pdf/' + filename + ".pdf", 'wb')
+        file = open(path, 'wb')
         file.write(response.content)
         file.close()
-    path = str(pathlib.Path().absolute()) + f'/pdf/{filename}.pdf'
-    #file_path = '/'.join(path.split("\\"))
+    # file_path = '/'.join(path.split("\\"))
     log.info("uploading %s ...", filename)
     link = uploadPDF(path, filename)
     return {"path": link}

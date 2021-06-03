@@ -1,5 +1,7 @@
 from __future__ import print_function
-import os.path
+import os
+import pathlib
+
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -7,8 +9,9 @@ from google.oauth2.credentials import Credentials
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive']
-TOKEN = "gdrive/token.json"
-SECRET = "gdrive/client_secret.json"
+PARENT = pathlib.Path(__file__).parent.absolute()
+TOKEN = os.path.join(PARENT, "token.json")
+SECRET = os.path.join(PARENT, "client_secret.json")
 
 
 def create_service():
