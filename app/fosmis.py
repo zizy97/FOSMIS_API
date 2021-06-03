@@ -39,22 +39,31 @@ def updateDB():
                     continue
                 row_data.append(row.td.text)
             news.append(row_data)
-            
+
         finaldata = {}
-        key = 0
         log.info("updating db ...")
+        key = 0
+        arr = []
         for row in news:
             if len(row) > 3:
                 key += 1
                 newsdata = None
                 for x in row[3]:
-                    if "path" == x:
-                        log.info(row[3][x])
-                        newsdata = NewsData(row[0], row[1], row[2], "", row[3][x])
-                        finaldata.update({key: newsdata})
+                    if row[0] in arr:
+                        if "path" == x:
+                            log.info(row[3][x])
+                            newsdata = NewsData(row[0]+key, row[1], row[2], "", row[3][x])
+                        else:
+                            newsdata = NewsData(row[0]+key, row[1], row[2], row[3]["description"], "")
                     else:
-                        newsdata = NewsData(row[0], row[1], row[2], row[3]["description"], "")
-                        finaldata.update({key: newsdata})
+                        if "path" == x:
+                            log.info(row[3][x])
+                            newsdata = NewsData(row[0], row[1], row[2], "", row[3][x])
+                        else:
+                            newsdata = NewsData(row[0], row[1], row[2], row[3]["description"], "")
+
+                    finaldata.update({key: newsdata})
+                    arr.append(row[0])
                     db.session.add(newsdata)
                     db.session.commit()
 
