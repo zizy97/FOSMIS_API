@@ -1,6 +1,6 @@
 import logging
 from app.downloadfile import download_file
-import asyncio
+#import asyncio
 import re
 import os
 from bs4 import BeautifulSoup
