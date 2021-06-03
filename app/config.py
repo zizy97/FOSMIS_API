@@ -40,7 +40,7 @@ class Source:
 class NewsData(db.Model):
     __tablename__ = 'newsdata'
     id = db.Column(db.INT, primary_key=True)
-    date = db.Column(db.DATETIME)
+    date = db.Column(db.TIMESTAMP)
     title = db.Column(db.String)
     description = db.Column(db.TEXT)
     path = db.Column(db.PickleType)
