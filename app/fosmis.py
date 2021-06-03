@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 from requests import Session
 
 # from .downloadfile import download_file
-from app.getcontent import get_html_content
-from app.config import NewsData, db
+from .getcontent import get_html_content
+from .config import NewsData, db
 
 format = "%(asctime)s: %(message)s"
 logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
