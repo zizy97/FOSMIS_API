@@ -41,7 +41,7 @@ def index():
 
 @app.route('/add')
 def add():
-    from fosmis import updateDB
+    from app import updateDB
     updateDB()
     return 'DataBase Updated'
 

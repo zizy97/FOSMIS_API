@@ -1,15 +1,9 @@
-import logging
 import re
 
 from bs4 import BeautifulSoup
 from requests import Session
 
-from downloadfile import download_file
-from getcontent import get_html_content
-from config import NewsData, db
-
-format = "%(asctime)s: %(message)s"
-logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
+from . import download_file, get_html_content, NewsData, db, logging
 
 # USERNAME = os.environ.get("USERNAME")
 # PASSWORD = os.environ.get("PASSWORD")
@@ -18,8 +12,11 @@ PASSWORD = 'Level1@2019'
 
 url = "https://paravi.ruh.ac.lk/fosmis2020/"
 
+log = logging.getLogger(__name__)
+
 
 async def updateDB():
+    log.info("fetching data from fosmis ...")
     with Session() as ses:
         ses.post("https://paravi.ruh.ac.lk/fosmis2020/login.php", data=dict(uname=USERNAME, upwd=PASSWORD))
         res = ses.get(url + "forms/form_53_a.php")
@@ -59,4 +56,5 @@ async def updateDB():
                     # db.session.add(newsdata)
                     # db.session.commit()
 
+        log.info("fetched all data !")
         return finaldata

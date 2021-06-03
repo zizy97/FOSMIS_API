@@ -1,5 +1,5 @@
 from googleapiclient.http import MediaFileUpload
-from .GdriveOauth import create_service
+from . import create_service
 
 drive_service = create_service()
 

@@ -1,8 +1,8 @@
 import pathlib
 import os
-import logging
 
-from gdrive.uploadPDF import uploadPDF
+from gdrive import uploadPDF
+from . import logging
 
 log = logging.getLogger(__name__)
 
