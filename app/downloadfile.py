@@ -22,8 +22,8 @@ def download_file(ses, url, filename):
         file = open('pdf/' + filename + ".pdf", 'wb')
         file.write(response.content)
         file.close()
-    path = str(pathlib.Path().absolute()) + f'\\img\\{filename}.pdf'
-    file_path = '/'.join(path.split("\\"))
+    path = str(pathlib.Path().absolute()) + f'/pdf/{filename}.pdf'
+    #file_path = '/'.join(path.split("\\"))
     log.info("uploading %s ...", filename)
-    link = uploadPDF(file_path, filename)
+    link = uploadPDF(path, filename)
     return {"path": link}
