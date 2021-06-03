@@ -11,13 +11,13 @@ except FileExistsError:
     print("Directory ", dirName, " already exists")
 
 
-def download_file(index, arr):
-    if not os.path.exists('pdf/' + arr[2] + '.pdf'):
-        response = arr[0].get(arr[1])
-        file = open('pdf/' + arr[2] + ".pdf", 'wb')
+def download_file(ses,url,filename):
+    if not os.path.exists('pdf/' + filename + '.pdf'):
+        response = ses.get(url)
+        file = open('pdf/' + filename + ".pdf", 'wb')
         file.write(response.content)
         file.close()
-    path = str(pathlib.Path().absolute()) + f'\\img\\{arr[2]}.pdf'
+    path = str(pathlib.Path().absolute()) + f'\\img\\{filename}.pdf'
     file_path = '/'.join(path.split("\\"))
-    link = uploadPDF(file_path, arr[2])
-    return [index, link]
+    link = uploadPDF(file_path, filename)
+    return {"path":link}
