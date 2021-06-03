@@ -28,7 +28,8 @@ def updateDB():
             for row.td in row:
                 if row.td.a:
                     if re.search(r".pdf", row.td.a['href']):
-                        filename = re.findall(r'-[\w,\s]*', row.td.a['href'])
+                        filename = re.findall(r'-[\w,\s]*', row.td.a['href'])[0]
+                        filename = filename.strip('- ')
                         url2 = re.findall(r'/.*', row.td.a['href'])[0]
                         row_data.append({"path": download_file(ses, url + "/" + url2, filename)})
                         break
