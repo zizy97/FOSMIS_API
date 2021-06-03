@@ -54,7 +54,7 @@ def add():
     if TASK is None:
         TASK = Thread(target=updateDB)
 
-    if TASK.isAlive():
+    if TASK.is_alive():
         return 'DataBase Updating ...'
     else:
         TASK.start()
