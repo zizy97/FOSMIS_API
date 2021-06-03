@@ -43,6 +43,7 @@ def updateDB():
         finaldata = {}
         log.info("updating db ...")
         key = 0
+        data = NewsData.query.all()
         for row in news:
             if len(row) > 3:
                 key += 1
@@ -55,8 +56,9 @@ def updateDB():
                         newsdata = NewsData(key, row[1], row[2], row[3]["description"], "")
 
                     finaldata.update({key: newsdata})
-                    db.session.add(newsdata)
-                    db.session.commit()
+                    if newsdata in data:
+                        db.session.add(newsdata)
+                        db.session.commit()
 
         log.info("fetched all data !")
         return finaldata

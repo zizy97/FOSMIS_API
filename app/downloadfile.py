@@ -23,7 +23,6 @@ def download_file(ses, url, filename):
         file = open(path, 'wb')
         file.write(response.content)
         file.close()
-    # file_path = '/'.join(path.split("\\"))
     log.info("uploading %s ...", filename)
     link = uploadPDF(path, filename)
     return {"path": link}
