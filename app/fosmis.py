@@ -56,7 +56,7 @@ def updateDB():
                         newsdata = NewsData(key, row[1], row[2], row[3]["description"], "")
 
                     finaldata.update({key: newsdata})
-                    if newsdata in data:
+                    if newsdata not in data:
                         db.session.add(newsdata)
                         db.session.commit()
 
