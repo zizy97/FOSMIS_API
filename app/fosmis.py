@@ -52,9 +52,9 @@ def updateDB():
                     if row[0] in arr:
                         if "path" == x:
                             log.info(row[3][x])
-                            newsdata = NewsData(row[0]+key, row[1], row[2], "", row[3][x])
+                            newsdata = NewsData(str(int(row[0])+key), row[1], row[2], "", row[3][x])
                         else:
-                            newsdata = NewsData(row[0]+key, row[1], row[2], row[3]["description"], "")
+                            newsdata = NewsData(str(int(row[0])+key), row[1], row[2], row[3]["description"], "")
                     else:
                         if "path" == x:
                             log.info(row[3][x])
