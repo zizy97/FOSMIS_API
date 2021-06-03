@@ -99,7 +99,7 @@ def get_newsdata():
                     "RECENT": news.recent}
         else:
             data = {"ID": news.id, "DATE": news.date, "TITLE": news.title,
-                    "DESCRIPTION": news.description, "SOURCE": None,"RECENT": news.recent}
+                    "DESCRIPTION": news.description, "SOURCE": None, "RECENT": news.recent}
         output.append(data)
     return {"NewsData": output}
 
