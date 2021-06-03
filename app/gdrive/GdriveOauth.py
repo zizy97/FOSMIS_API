@@ -7,29 +7,29 @@ from google.oauth2.credentials import Credentials
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive']
+TOKEN = "gdrive/token.json"
+SECRET = "gdrive/client_secret.json"
 
 
 def create_service():
     """Shows basic usage of the Drive v3 API.
     Prints the names and ids of the first 10 files the user has access to.
     """
-    print(os.path)
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists("./token.json"):
-        creds = Credentials.from_authorized_user_file("./token.json", SCOPES)
+    if os.path.exists(TOKEN):
+        creds = Credentials.from_authorized_user_file(TOKEN, SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                "./client_secret.json", SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(SECRET, SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open("./token.json", 'w') as token:
+        with open(TOKEN, 'w') as token:
             token.write(creds.to_json())
 
     service = build('drive', 'v3', credentials=creds)
