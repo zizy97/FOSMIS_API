@@ -6,7 +6,7 @@ import os
 from bs4 import BeautifulSoup
 from requests import Session
 
-# from .downloadfile import download_file
+from .downloadfile import download_file
 from .getcontent import get_html_content
 from .config import NewsData, db
 
@@ -35,7 +35,7 @@ async def updateDB():
                     if re.search(r".pdf", row.td.a['href']):
                         filename = re.findall(r'-[\w,\s]*', row.td.a['href'])
                         url2 = re.findall(r'/.*', row.td.a['href'])
-                        row_data.append({"path": [ses, url + url2[0], filename[0]]})
+                        row_data.append({"path": download_file(ses,url+"/"+url2,filename)})
                         break
                     elif re.search(r".html", row.td.a['href']):
                         row_data.append(
@@ -43,18 +43,7 @@ async def updateDB():
                     continue
                 row_data.append(row.td.text)
             news.append(row_data)
-        arr = []
-        index = 0
-        for data in news:
-            if 'path' in data[3]:
-                logging.info(f"File Started Downloading index-{index}")
-                task = asyncio.create_task(download_file(index, data[3]['path']))
-                arr.append(task)
-            index += 1
-        for tsk in arr:
-            data = await tsk
-            logging.info(f"File finished Downloading index-{data[0]}")
-            news[data[0]][3] = {"path": data[1]}
+            
         finaldata = {}
         key = 0
         for row in news:
