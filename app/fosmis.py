@@ -61,7 +61,6 @@ def updateDB():
                             newsdata = NewsData(row[0], row[1], row[2], "", row[3][x])
                         else:
                             newsdata = NewsData(row[0], row[1], row[2], row[3]["description"], "")
-
                     finaldata.update({key: newsdata})
                     arr.append(row[0])
                     db.session.add(newsdata)
