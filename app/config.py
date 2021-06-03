@@ -3,10 +3,14 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+from .logging import logging
+
 app = Flask(__name__)
 
 HOST = os.environ.get("HOST")
 PORT = os.environ.get("PORT")
+
+log = logging.getLogger(__name__)
 
 # DATABASE_URL=os.environ.get("DATABASE_URL","sqlite:///sample.db")
 DATABASE_URL = 'sqlite:///sample.db'
@@ -57,7 +61,7 @@ def get_newsdata():
     newsdata = NewsData.query.all()
     output = []
     for news in newsdata:
-        print(news)
+        log.info(news)
         data = {"ID": news.id, "DATE": news.date, "CONTENT": news.content,
                 "DESCRIPTION": news.description, "PATH": news.path}
         output.append(data)

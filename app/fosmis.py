@@ -48,14 +48,14 @@ def updateDB():
                 newsdata = None
                 for x in row[3]:
                     if "path" == x:
-                        print(row[3][x])
+                        log.info(row[3][x])
                         newsdata = NewsData(row[0], row[1], row[2], "", row[3][x])
                         finaldata.update({key: newsdata})
                     else:
                         newsdata = NewsData(row[0], row[1], row[2], row[3]["description"], "")
                         finaldata.update({key: newsdata})
-                    # db.session.add(newsdata)
-                    # db.session.commit()
+                    db.session.add(newsdata)
+                    db.session.commit()
 
         log.info("fetched all data !")
         return finaldata
