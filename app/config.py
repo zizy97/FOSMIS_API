@@ -77,7 +77,7 @@ def get_newsdata():
     newsdata = NewsData.query.all()
     output = []
     for news in newsdata:
-        data = {"ID": news.id, "DATE": news.date, "CONTENT": news.content,
+        data = {"ID": news.id, "DATE": news.date, "TITLE": news.content,
                 "DESCRIPTION": news.description, "PATH": news.path}
         output.append(data)
     return {"NewsData": output}
