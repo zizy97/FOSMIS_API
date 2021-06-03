@@ -35,7 +35,7 @@ async def updateDB():
                     if re.search(r".pdf", row.td.a['href']):
                         filename = re.findall(r'-[\w,\s]*', row.td.a['href'])
                         url2 = re.findall(r'/.*', row.td.a['href'])
-                        row_data.append({"path": download_file(ses,url+"/"+url2,filename)})
+                        row_data.append({"path": download_file(ses,url+"/"+url2[0],filename)})
                         break
                     elif re.search(r".html", row.td.a['href']):
                         row_data.append(
