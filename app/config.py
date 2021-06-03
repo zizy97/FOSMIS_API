@@ -13,9 +13,13 @@ PORT = os.environ.get("PORT")
 
 log = logging.getLogger(__name__)
 
-# DATABASE_URL=os.environ.get("DATABASE_URL","sqlite:///sample.db")
-DATABASE_URL = 'sqlite:///sample.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+DATABASE_URL = os.environ.get("DATABASE_URL",
+                              "postgres://tknjoyeqxelpva"
+                              ":0d8e055962b328ed8d86bbc8762f3df74f63af6d5b4cb95e53c832dcc13133a1@ec2-34-202-54-225"
+                              ".compute-1.amazonaws.com:5432/d8mktjur1o1vuf")
+
+# DATABASE_URL = 'sqlite:///sample.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 db = SQLAlchemy(app)
 
@@ -37,6 +41,7 @@ class NewsData(db.Model):
 
     def __repr__(self):
         return f"id-{self.id} date-{self.date} content-{self.content} description-{self.description} path-{self.path}"
+
 
 TASK = None
 
