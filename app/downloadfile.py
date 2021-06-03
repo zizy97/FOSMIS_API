@@ -11,7 +11,7 @@ except FileExistsError:
     print("Directory ", dirName, " already exists")
 
 
-async def download_file(index, arr):
+def download_file(index, arr):
     if not os.path.exists('pdf/' + arr[2] + '.pdf'):
         response = arr[0].get(arr[1])
         file = open('pdf/' + arr[2] + ".pdf", 'wb')
