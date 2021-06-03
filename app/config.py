@@ -1,5 +1,5 @@
 import os
-from re import A
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,11 +8,12 @@ app = Flask(__name__)
 HOST = os.environ.get("HOST")
 PORT = os.environ.get("PORT")
 
-#DATABASE_URL=os.environ.get("DATABASE_URL","sqlite:///sample.db")
-DATABASE_URL='sqlite:///sample.db'
+# DATABASE_URL=os.environ.get("DATABASE_URL","sqlite:///sample.db")
+DATABASE_URL = 'sqlite:///sample.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 db = SQLAlchemy(app)
+
 
 class NewsData(db.Model):
     __tablename__ = 'newsdata'
@@ -32,20 +33,24 @@ class NewsData(db.Model):
     def __repr__(self):
         return f"id-{self.id} date-{self.date} content-{self.content} description-{self.description} path-{self.path}"
 
+
 @app.route('/')
 def index():
     return 'Hello World!!!'
 
+
 @app.route('/add')
-def updateDB():
-    from app.fosmis import dbupdata
-    dbupdata()
+def add():
+    from fosmis import updateDB
+    updateDB()
     return 'DataBase Updated'
+
 
 @app.route('/createdb')
 def createdb():
     db.create_all()
     return "Db created!!!"
+
 
 @app.route('/newsdata')
 def get_newsdata():
@@ -53,10 +58,11 @@ def get_newsdata():
     output = []
     for news in newsdata:
         print(news)
-        data = {"ID": news.id, "DATE": news.date, "CONTENT": news.content, "DESCRIPTION": news.description,
-                "PATH": news.path}
+        data = {"ID": news.id, "DATE": news.date, "CONTENT": news.content,
+                "DESCRIPTION": news.description, "PATH": news.path}
         output.append(data)
     return {"NewsData": output}
+
 
 if __name__ == '__main__':
     app.run(host=HOST, port=PORT)

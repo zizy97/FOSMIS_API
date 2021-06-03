@@ -1,14 +1,12 @@
 import logging
-from app.downloadfile import download_file
-#import asyncio
 import re
-import os
+
 from bs4 import BeautifulSoup
 from requests import Session
 
-from .downloadfile import download_file
-from .getcontent import get_html_content
-from .config import NewsData, db
+from downloadfile import download_file
+from getcontent import get_html_content
+from config import NewsData, db
 
 format = "%(asctime)s: %(message)s"
 logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
@@ -34,8 +32,8 @@ async def updateDB():
                 if row.td.a:
                     if re.search(r".pdf", row.td.a['href']):
                         filename = re.findall(r'-[\w,\s]*', row.td.a['href'])
-                        url2 = re.findall(r'/.*', row.td.a['href'])
-                        row_data.append({"path": download_file(ses,url+"/"+url2[0],filename)})
+                        url2 = re.findall(r'/.*', row.td.a['href'])[0]
+                        row_data.append({"path": download_file(ses, url + "/" + url2, filename)})
                         break
                     elif re.search(r".html", row.td.a['href']):
                         row_data.append(
@@ -62,7 +60,3 @@ async def updateDB():
                     # db.session.commit()
 
         return finaldata
-
-
-if __name__=="__main__":
-    asyncio.run(updateDB())
