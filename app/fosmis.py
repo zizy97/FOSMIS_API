@@ -15,7 +15,7 @@ url = "https://paravi.ruh.ac.lk/fosmis2020/"
 log = logging.getLogger(__name__)
 
 
-async def updateDB():
+def updateDB():
     log.info("fetching data from fosmis ...")
     with Session() as ses:
         ses.post("https://paravi.ruh.ac.lk/fosmis2020/login.php", data=dict(uname=USERNAME, upwd=PASSWORD))
