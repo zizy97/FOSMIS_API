@@ -30,5 +30,5 @@ def uploadPDF(filepath, filename):
         ).execute()
     else:
         file_id = dic[filename]
-    response = drive_service.files().get(fileId=file_id, fields='webContentLink,webViewLink').execute()
-    return [response.get('webContentLink'), response.get('webViewLink')]
+    response = drive_service.files().get(fileId=file_id, fields='webContentLink').execute()
+    return response.get('webContentLink')
