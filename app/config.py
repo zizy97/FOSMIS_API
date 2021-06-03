@@ -1,4 +1,5 @@
 import os
+from threading import Thread
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -37,6 +38,8 @@ class NewsData(db.Model):
     def __repr__(self):
         return f"id-{self.id} date-{self.date} content-{self.content} description-{self.description} path-{self.path}"
 
+TASK = None
+
 
 @app.route('/')
 def index():
@@ -45,9 +48,17 @@ def index():
 
 @app.route('/add')
 def add():
+    global TASK
     from app import updateDB
-    updateDB()
-    return 'DataBase Updated'
+
+    if TASK is None:
+        TASK = Thread(target=updateDB)
+
+    if TASK.isAlive():
+        return 'DataBase Updating ...'
+    else:
+        TASK.start()
+        return 'DataBase Update Started !'
 
 
 @app.route('/createdb')

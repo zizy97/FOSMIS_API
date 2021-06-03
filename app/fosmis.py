@@ -42,6 +42,7 @@ def updateDB():
             
         finaldata = {}
         key = 0
+        log.info("updating db ...")
         for row in news:
             if len(row) > 3:
                 key += 1
