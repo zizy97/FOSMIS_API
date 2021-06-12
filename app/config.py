@@ -4,6 +4,7 @@ import json
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 
 from .logging import logging
 
@@ -88,7 +89,7 @@ def createdb():
 
 @app.route('/newsdata')
 def get_newsdata():
-    newsdata = NewsData.query.all()
+    newsdata = NewsData.query.order_by(text("date desc"))
     output = []
     for news in newsdata:
         if news.path:
@@ -106,7 +107,7 @@ def get_newsdata():
 
 @app.route('/recent')
 def get_recentdata():
-    newsdata = NewsData.query.filter_by(recent=True)
+    newsdata = NewsData.query.filter_by(recent=True).order_by(text("date desc"))
     output = []
     for news in newsdata:
         if news.path:
