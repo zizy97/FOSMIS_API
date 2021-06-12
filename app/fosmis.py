@@ -60,7 +60,7 @@ def updateDB():
                 today = datetime.today()
                 time_gone = (today - date).days
 
-                if time_gone > 2:
+                if time_gone > 5:
                     recent = False
                 else:
                     recent = True
@@ -73,19 +73,27 @@ def updateDB():
 
                     # finaldata.update({key: newsdata})
                     log.info(f"{newsdata.title} inserting to db")
-                    flag = 0
+                    flag = -1
                     for news in data:
                         if newsdata.title == news.title:
                             if newsdata.date == news.date:
-                                flag = 1
+                                if newsdata.recent == news.recent:
+                                    flag = -2
+                                    break
+                                flag = news.id
                                 break
-                    if flag == 0:
+                    if flag == -1:
                         newsdata.id = len(data) + 1
                         data.append(newsdata)
                         db.session.add(newsdata)
                         db.session.commit()
                         log.info(f"{newsdata.title} inserted")
-                    else:
+                    elif flag == -2:
                         log.info(f"{newsdata.title} exist abort insert")
+                    else:
+                        recent_update = NewsData.query.filter_by(id=flag).first()
+                        recent_update.recent = False
+                        db.session.commit()
+                        log.info(f"{newsdata.title} Updated")
 
         log.info("fetched all data !")

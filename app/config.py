@@ -104,5 +104,23 @@ def get_newsdata():
     return {"NewsData": output}
 
 
+@app.route('/recent')
+def get_recentdata():
+    newsdata = NewsData.query.filter_by(recent=True)
+    output = []
+    for news in newsdata:
+        if news.path:
+            # data = {"ID": news.id, "DATE": news.date, "CONTENT": news.content,
+            #         "DESCRIPTION": news.description, "SOURCE": news.path.toJSON()}
+            data = {"ID": news.id, "DATE": news.date, "TITLE": news.title,
+                    "DESCRIPTION": news.description, "SOURCE": [news.path.webviewlink, news.path.webcontentlink],
+                    "RECENT": news.recent}
+        else:
+            data = {"ID": news.id, "DATE": news.date, "TITLE": news.title,
+                    "DESCRIPTION": news.description, "SOURCE": None, "RECENT": news.recent}
+        output.append(data)
+    return {"NewsData": output}
+
+
 if __name__ == '__main__':
     app.run(host=HOST, port=PORT)
