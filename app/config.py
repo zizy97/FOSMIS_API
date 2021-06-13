@@ -18,7 +18,6 @@ PORT = os.environ.get("PORT")
 
 log = logging.getLogger(__name__)
 
-
 TASK = None
 
 
@@ -48,7 +47,7 @@ def get_newsdata():
     for news in newsdata:
         if news:
             output.append(news)
-    output.sort(key=lambda k: k['date'])
+    output.sort(key=lambda k: k['date'], reverse=True)
     return {"NewsData": output}
 
 
@@ -60,6 +59,7 @@ def get_recentdata():
         if news:
             if news['recent']:
                 output.append(news)
+    output.sort(key=lambda k: k['date'], reverse=True)
     return {"NewsData": output}
 
 
