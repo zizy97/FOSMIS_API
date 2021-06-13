@@ -4,7 +4,8 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from requests import Session
 
-from . import download_file, get_html_content, NewsData, db, logging, Source
+from . import download_file, get_html_content, logging
+from .db import database
 
 # USERNAME = os.environ.get("USERNAME")
 # PASSWORD = os.environ.get("PASSWORD")
@@ -44,7 +45,7 @@ def updateDB():
         key = 0
 
         # get current database newsdata
-        data = NewsData.query.all()
+        data = database.child('Newsdata').get().val()
 
         # append the updates to the Database
         # finaldata = {}
@@ -66,34 +67,36 @@ def updateDB():
                     recent = True
                 for x in row[3]:
                     if "path" == x:
-                        newsdata = NewsData(key, date, row[2], "", Source(row[3][x]['view'], row[3][x]['download']),
-                                            recent)
+                        newsdata = {"id": key, "date": str(date), "title": row[2], "description": "",
+                                    "source": [row[3][x]['view'], row[3][x]['download']],
+                                    "recent": recent}
                     else:
-                        newsdata = NewsData(key, date, row[2], row[3]["description"], None, recent)
+                        newsdata = {"id": key, "date": str(date), "title": row[2], "description": row[3]["description"],
+                                    "source": ["", ""],
+                                    "recent": recent}
 
-                    # finaldata.update({key: newsdata})
-                    log.info(f"{newsdata.title} inserting to db")
+                    log.info(f"{newsdata['title']} inserting to db")
                     flag = -1
-                    for news in data:
-                        if newsdata.title == news.title:
-                            if newsdata.date == news.date:
-                                if newsdata.recent == news.recent:
-                                    flag = -2
-                                    break
-                                flag = news.id
-                                break
+                    if data:
+                        for news in data:
+                            if news:
+                                if newsdata['title'] == news['title']:
+                                    if newsdata['date'] == news['date']:
+                                        if newsdata['recent'] == news['recent']:
+                                            flag = -2
+                                            break
+                                        flag = news['id']
+                                        break
                     if flag == -1:
-                        newsdata.id = len(data) + 1
-                        data.append(newsdata)
-                        db.session.add(newsdata)
-                        db.session.commit()
-                        log.info(f"{newsdata.title} inserted")
+                        if data:
+                            newsdata['id'] = len(data) + 1
+                        else:
+                            database.child("Newsdata").child(newsdata['id']).set(newsdata)
+                            log.info(f"{newsdata['title']} inserted")
                     elif flag == -2:
-                        log.info(f"{newsdata.title} exist abort insert")
+                        log.info(f"{newsdata['title']} exist abort insert")
                     else:
-                        recent_update = NewsData.query.filter_by(id=flag).first()
-                        recent_update.recent = False
-                        db.session.commit()
-                        log.info(f"{newsdata.title} Updated")
+                        database.child('Newsdata').child(f"newsdata {flag}").update({"recent": False})
+                        log.info(f"{newsdata['title']} Updated")
 
         log.info("fetched all data !")
