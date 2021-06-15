@@ -90,9 +90,12 @@ def updateDB():
                     if flag == -1:
                         if data:
                             newsdata['id'] = len(data) + 1
+                            database.child("Newsdata").child(newsdata['id']).set(newsdata)
+                            log.info(f"{newsdata['title']} inserted")
                         else:
                             database.child("Newsdata").child(newsdata['id']).set(newsdata)
                             log.info(f"{newsdata['title']} inserted")
+                        data.append(newsdata)
                     elif flag == -2:
                         log.info(f"{newsdata['title']} exist abort insert")
                     else:
