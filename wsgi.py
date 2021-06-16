@@ -5,8 +5,8 @@ import asyncio
 async def main():
     while True:
         try:
+            await asyncio.sleep(60*10)
             updateDB()
-            await asyncio.sleep(60*2)
         except Exception as e:
             print(e)
 
