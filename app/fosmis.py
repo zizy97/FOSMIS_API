@@ -47,7 +47,7 @@ def updateDB():
         # get current database newsdata
         data = database.child('Newsdata').get().val()
 
-
+        log.info(data)
         # append the updates to the Database
         # finaldata = {}
         for row in news:
@@ -80,7 +80,7 @@ def updateDB():
                 flag = -1
                 if data:
                     for news in data:
-                        if news:
+                        if news is not None:
                             if newsdata['title'] == news['title']:
                                 if newsdata['date'] == news['date']:
                                     if newsdata['recent'] == news['recent']:
@@ -100,7 +100,7 @@ def updateDB():
                 elif flag == -2:
                     log.info(f"{newsdata['title']} exist abort insert")
                 else:
-                    database.child('Newsdata').child(f"newsdata {flag}").update({"recent": False})
+                    database.child('Newsdata').child(flag).update({"recent": False})
                     log.info(f"{newsdata['title']} Updated")
 
         log.info("fetched all data !")
