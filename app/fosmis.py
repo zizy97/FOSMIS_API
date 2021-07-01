@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 
@@ -7,10 +8,9 @@ from requests import Session
 from . import download_file, get_html_content, logging
 from .db import database
 
-# USERNAME = os.environ.get("USERNAME")
-# PASSWORD = os.environ.get("PASSWORD")
-USERNAME = 'sc10676'
-PASSWORD = 'Level1@2019'
+USERNAME = os.environ.get("USERNAME")
+PASSWORD = os.environ.get("PASSWORD")
+
 
 url = "https://paravi.ruh.ac.lk/fosmis2020/"
 
@@ -25,21 +25,27 @@ def updateDB():
         soup = BeautifulSoup(res.content, "lxml")
         gdp_table = soup.findAll("tr", attrs={"class": "trbgc"})
         news = []
+        # count = 0
         for row in gdp_table:
             row_data = []
             for row.td in row:
                 if row.td.a:
-                    if re.search(r".pdf", row.td.a['href']):
+                    if re.search(r".pdf", row.td.a['href']) or re.search(r".docx", row.td.a['href']) :
                         filename = re.findall(r'-[\w,\s]*', row.td.a['href'])[0]
                         filename = filename.split('-')
                         filename = ' '.join(filename)
                         url2 = re.findall(r'/.*', row.td.a['href'])[0]
-                        row_data.append(download_file(ses, url + "/" + url2, filename))
+                        # row_data.append(download_file(ses, url + "/" + url2, filename))
+                        link = url + row.td.a['href'].split('/', 1)[1]
+                        row_data.append({"path": link})
                     elif re.search(r".html", row.td.a['href']):
                         row_data.append(
                             {"description": get_html_content(ses, url + 'forms/' + row.td.a['href'])})
                 row_data.append(row.td.text)
             news.append(row_data)
+            # count += 1
+            # if count == 3:
+            #     break
 
         log.info("updating db ...")
         key = 0
@@ -47,7 +53,7 @@ def updateDB():
         # get current database newsdata
         data = database.child('Newsdata').get().val()
 
-        log.info(data)
+        # log.info(data)
         # append the updates to the Database
         # finaldata = {}
         for row in news:
@@ -69,13 +75,12 @@ def updateDB():
                 for x in row[3]:
                     if "path" == x:
                         newsdata = {"id": key, "date": str(date), "title": row[2], "description": "",
-                                    "source": [row[3][x]['view'], row[3][x]['download']],
+                                    "source": [row[3]['path'], ""],
                                     "recent": recent}
                     else:
                         newsdata = {"id": key, "date": str(date), "title": row[2], "description": row[3]["description"],
                                     "source": ["", ""],
                                     "recent": recent}
-
                 log.info(f"{newsdata['title']} inserting to db")
                 flag = -1
                 if data:
