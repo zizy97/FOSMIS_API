@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 
@@ -7,10 +8,9 @@ from requests import Session
 from . import download_file, get_html_content, logging
 from .db import database
 
-# USERNAME = os.environ.get("USERNAME")
-# PASSWORD = os.environ.get("PASSWORD")
-USERNAME = 'sc10676'
-PASSWORD = 'Level1@2019'
+USERNAME = os.environ.get("USERNAME")
+PASSWORD = os.environ.get("PASSWORD")
+
 
 url = "https://paravi.ruh.ac.lk/fosmis2020/"
 
