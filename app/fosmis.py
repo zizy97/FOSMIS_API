@@ -73,7 +73,6 @@ def updateDB():
                 else:
                     recent = True
                 for x in row[3]:
-                    print(row)
                     if "path" == x:
                         newsdata = {"id": key, "date": str(date), "title": row[2], "description": "",
                                     "source": [row[3]['path'], ""],
@@ -82,7 +81,6 @@ def updateDB():
                         newsdata = {"id": key, "date": str(date), "title": row[2], "description": row[3]["description"],
                                     "source": ["", ""],
                                     "recent": recent}
-                print(newsdata)
                 log.info(f"{newsdata['title']} inserting to db")
                 flag = -1
                 if data:
