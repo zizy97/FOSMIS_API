@@ -2,10 +2,11 @@ import os
 import re
 from datetime import datetime
 
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 from requests import Session
 
-from . import download_file, get_html_content, logging
+# from . import download_file, get_html_content, logging
+from . import logging
 from .db import database
 
 USERNAME = os.environ.get("USERNAME")
