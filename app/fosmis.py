@@ -76,7 +76,7 @@ def updateDB():
                 for x in row[3]:
                     if "path" == x:
                         newsdata = {"id": key, "date": str(date), "title": row[2], "description": "",
-                                    "source": ["",row[3]['path']],
+                                    "source": ["view_link",row[3]['path']],
                                     "recent": recent}
                     else:
                         newsdata = {"id": key, "date": str(date), "title": row[2], "description": row[3]["description"],
